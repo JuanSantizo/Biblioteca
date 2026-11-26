@@ -1,0 +1,37 @@
+name: CI - Biblioteca API
+
+on:
+  push:
+    branches:
+      - desarrollo
+      - calidad
+      - master
+    paths-ignore:
+      - "**/*.md"
+
+  pull_request:
+    branches:
+      - desarrollo
+      - calidad
+      - master
+
+jobs:
+  build:
+    name: Compilar y validar
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "26"
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Compilar TypeScript
+        run: npm run build
